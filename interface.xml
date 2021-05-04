@@ -1,0 +1,24 @@
+<config>
+  <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+    <interface>
+      <GigabitEthernet>
+        <name xmlns:nc='urn:ietf:params:xml:ns:netconf:base:1.0'>{{ INTERFACE_INDEX }}</name>
+        <ip>
+          <address>
+            <primary>
+              <address>{{ IP_ADDRESS }}</address>
+              <mask>{{ SUBNET_MASK }}</mask>
+            </primary>
+          </address>
+        </ip>
+        <mop>
+          <enabled>false</enabled>
+          <sysid>false</sysid>
+        </mop>
+        <negotiation xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ethernet">
+          <auto>true</auto>
+        </negotiation>
+      </GigabitEthernet>
+    </interface>
+  </native>
+</config>
