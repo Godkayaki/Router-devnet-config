@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface version="1.1">
+  <object class="tk.Frame" id="mainwindow">
+    <property name="height">600</property>
+    <property name="width">1100</property>
+    <layout manager="pack">
+      <property name="propagate">False</property>
+      <property name="side">top</property>
+    </layout>
+    <child>
+      <object class="tk.LabelFrame" id="frame_connection">
+        <property name="height">100</property>
+        <property name="text" translatable="yes">Device Connection</property>
+        <property name="width">1366</property>
+        <layout manager="pack">
+          <property name="propagate">False</property>
+          <property name="side">top</property>
+        </layout>
+        <child>
+          <object class="tk.Frame" id="frame_connection_top">
+            <property name="height">757</property>
+            <property name="width">683</property>
+            <layout manager="pack">
+              <property name="fill">y</property>
+              <property name="padx">60</property>
+              <property name="propagate">True</property>
+              <property name="side">left</property>
+            </layout>
+            <child>
+              <object class="tk.Frame" id="frame2">
+                <property name="height">200</property>
+                <property name="width">200</property>
+                <layout manager="pack">
+                  <property name="expand">true</property>
+                  <property name="fill">y</property>
+                  <property name="propagate">True</property>
+                  <property name="side">left</property>
+                </layout>
+                <child>
+                  <object class="tk.Frame" id="frame_host">
+                    <property name="height">200</property>
+                    <property name="width">200</property>
+                    <layout manager="pack">
+                      <property name="expand">true</property>
+                      <property name="fill">x</property>
+                      <property name="padx">20</property>
+                      <property name="propagate">True</property>
+                      <property name="side">top</property>
+                    </layout>
+                    <child>
+                      <object class="tk.Label" id="label_host">
+                        <property name="text" translatable="yes">Host: </property>
+                        <layout manager="pack">
+                          <property name="propagate">True</property>
+                          <property name="side">left</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="tk.Entry" id="entry_host">
+                        <layout manager="pack">
+                          <property name="propagate">True</property>
+                          <property name="side">right</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="tk.Frame" id="frame_port">
+                    <property name="height">200</property>
+                    <property name="width">200</property>
+                    <layout manager="pack">
+                      <property name="expand">true</property>
+                      <property name="fill">x</property>
+                      <property name="padx">20</property>
+                      <property name="propagate">True</property>
+                      <property name="side">top</property>
+                    </layout>
+                    <child>
+                      <object class="tk.Label" id="label_port">
+                        <property name="text" translatable="yes">Port: </property>
+                        <layout manager="pack">
+                          <property name="propagate">True</property>
+                          <property name="side">left</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="tk.Entry" id="entry_port">
+                        <layout manager="pack">
+                          <property name="propagate">True</property>
+                          <property name="side">right</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Frame" id="frame3">
+                <property name="height">200</property>
+                <property name="width">200</property>
+                <layout manager="pack">
+                  <property name="expand">true</property>
+                  <property name="fill">y</property>
+                  <property name="propagate">True</property>
+                  <property name="side">left</property>
+                </layout>
+                <child>
+                  <object class="tk.Frame" id="frame_user">
+                    <property name="height">200</property>
+                    <property name="width">200</property>
+                    <layout manager="pack">
+                      <property name="expand">true</property>
+                      <property name="fill">x</property>
+                      <property name="padx">20</property>
+                      <property name="propagate">True</property>
+                      <property name="side">top</property>
+                    </layout>
+                    <child>
+                      <object class="tk.Entry" id="entry_user">
+                        <layout manager="pack">
+                          <property name="propagate">True</property>
+                          <property name="side">right</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="tk.Label" id="label_user">
+                        <property name="text" translatable="yes">User: </property>
+                        <layout manager="pack">
+                          <property name="propagate">True</property>
+                          <property name="side">right</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="tk.Frame" id="frame_pswd">
+                    <property name="height">200</property>
+                    <property name="width">200</property>
+                    <layout manager="pack">
+                      <property name="expand">true</property>
+                      <property name="fill">x</property>
+                      <property name="padx">20</property>
+                      <property name="propagate">True</property>
+                      <property name="side">top</property>
+                    </layout>
+                    <child>
+                      <object class="tk.Label" id="label_pswd">
+                        <property name="text" translatable="yes">Password: </property>
+                        <layout manager="pack">
+                          <property name="propagate">True</property>
+                          <property name="side">left</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="tk.Entry" id="entry_pswd">
+                        <layout manager="pack">
+                          <property name="propagate">True</property>
+                          <property name="side">left</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="tk.Frame" id="frame_connection_bottom">
+            <property name="height">75</property>
+            <property name="width">200</property>
+            <layout manager="pack">
+              <property name="expand">true</property>
+              <property name="fill">x</property>
+              <property name="propagate">False</property>
+              <property name="side">right</property>
+            </layout>
+            <child>
+              <object class="tk.Frame" id="frame4">
+                <property name="height">200</property>
+                <property name="width">200</property>
+                <layout manager="pack">
+                  <property name="expand">true</property>
+                  <property name="fill">x</property>
+                  <property name="padx">0</property>
+                  <property name="propagate">False</property>
+                  <property name="side">left</property>
+                </layout>
+                <child>
+                  <object class="tk.Button" id="button_testconnect">
+                    <property name="text" translatable="yes">Test Connection</property>
+                    <layout manager="pack">
+                      <property name="propagate">True</property>
+                      <property name="side">right</property>
+                    </layout>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Frame" id="frame5">
+                <property name="height">200</property>
+                <property name="width">200</property>
+                <layout manager="pack">
+                  <property name="expand">true</property>
+                  <property name="fill">x</property>
+                  <property name="padx">80</property>
+                  <property name="propagate">False</property>
+                  <property name="side">right</property>
+                </layout>
+                <child>
+                  <object class="tk.Button" id="button_connect">
+                    <property name="text" translatable="yes">Connect</property>
+                    <layout manager="pack">
+                      <property name="propagate">True</property>
+                      <property name="side">left</property>
+                    </layout>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="tk.LabelFrame" id="frame_configuration">
+        <property name="height">568</property>
+        <property name="text" translatable="yes">Configuration</property>
+        <property name="width">1366</property>
+        <layout manager="pack">
+          <property name="propagate">False</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+  </object>
+</interface>

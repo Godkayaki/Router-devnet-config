@@ -1,52 +1,61 @@
-#!/usr/bin/python3
-#-*- coding: utf-8 -*-
-#Daniel Gonzalez
-
+# helloworld.py
+import tkinter as tk
 import os
-from ncclient import manager
-from jinja2 import Template
+import pygubu
+from tkinter import *
 
-#https://unix.stackexchange.com/questions/340844/how-to-enable-diffie-hellman-group1-sha1-key-exchange-on-debian-8-0/340853
-#https://dev.to/alecbuda/python-automation-on-cisco-routers-in-2019-netconf-yang-jinja2-52ho
+import deviceconnection
 
-project_path = os.path.dirname(__file__)
-HOST='ios-xe-mgmt.cisco.com'
-PORT=10000
-USER='developer'
-PSWD='C1sco12345'
+PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
+GUI_FILE = PROJECT_PATH+"/gui/mainui.ui"
 
-# Create a configuration filter
-interface_filter = '''
-  <filter>
-      <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-          <interface>
-            <GigabitEthernet>
-              <name>1</name>
-            </GigabitEthernet>
-          </interface>
-      </native>
-  </filter>
-'''
+class MainApp(Frame):
+    
+    #init method
+    def __init__(self, parent=None):
+        self.builder = builder = pygubu.Builder()
+        builder.add_from_file(GUI_FILE)
+        self.mainwindow = builder.get_object('mainwindow')
+        
+        self.defineWidgets()
+        self.setupButtons()
 
-m = manager.connect(host=HOST, port=PORT, username=USER, password=PSWD, hostkey_verify=False, device_params={'name': 'csr'}, look_for_keys=False, allow_agent=False)
-'''with manager.connect(host=HOST, port=PORT, username=USER, password=PSWD, hostkey_verify=False, device_params={'name': 'csr'}, look_for_keys=False, allow_agent=False) as m:
-    c = m.get_config(source='running').data_xml'''
-    #with open("%s.xml" % host, 'w') as f:
-    #    f.write(c)
+    #define pygubu widgets
+    def defineWidgets(self):
+        self.entry_h = self.builder.get_object('entry_host')
+        self.entry_p = self.builder.get_object('entry_port')
+        self.entry_u = self.builder.get_object('entry_user')
+        self.entry_pw = self.builder.get_object('entry_pswd')
 
-interface_template = Template(open(project_path+'/interface.xml').read())
-interface_rendered = interface_template.render(
-  INTERFACE_INDEX='2', 
-  IP_ADDRESS='10.0.0.1', 
-  SUBNET_MASK='255.255.255.252'
-)
+    #setup buttons method
+    def setupButtons(self):
+        self.bt_testc = self.builder.get_object('button_testconnect')
+        self.bt_c = self.builder.get_object('button_connect')
 
-#edit the router config
-result = m.edit_config(target='running', config=interface_rendered)
-print(result)
+        self.bt_testc.bind("<Button-1>", self.test_connection_clicked)
+        self.bt_c.bind("<Button-1>", self.connection_clicked)
 
-#get config of the router
-#result = m.get_config('running', interface_filter)
-#print(result)
-#result = m.get_config('running')
-#print(result)
+    #test connection button clicked event
+    def test_connection_clicked(self, event):
+        host = self.entry_h.get()
+        port = int(self.entry_p.get())
+        user = self.entry_u.get()
+        pswd = self.entry_pw.get()
+        
+        if deviceconnection.test_connection(host, port, user, pswd):
+            messagebox.showinfo(message="Mensaje", title="Título")
+
+    #test connection button clicked event
+    def connection_clicked(self, event):
+        pass
+
+    #run application
+    def run(self):
+        self.mainwindow.mainloop()
+
+
+if __name__ == '__main__':
+    root = tk.Tk()
+    root.title("Devnet Configuration")
+    app = MainApp(root)
+    app.run()
