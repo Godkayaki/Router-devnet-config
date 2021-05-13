@@ -195,7 +195,7 @@
                 </layout>
                 <child>
                   <object class="tk.Button" id="button_testconnect">
-                    <property name="text" translatable="yes">Test Connection</property>
+                    <property name="text" translatable="yes">Provar conexió</property>
                     <layout manager="pack">
                       <property name="propagate">True</property>
                       <property name="side">right</property>
@@ -217,7 +217,7 @@
                 </layout>
                 <child>
                   <object class="tk.Button" id="button_connect">
-                    <property name="text" translatable="yes">Connect</property>
+                    <property name="text" translatable="yes">Conectar</property>
                     <layout manager="pack">
                       <property name="propagate">True</property>
                       <property name="side">left</property>
@@ -239,6 +239,28 @@
           <property name="propagate">False</property>
           <property name="side">top</property>
         </layout>
+        <child>
+          <object class="tk.Frame" id="frame_disconnect_bt">
+            <property name="height">85</property>
+            <property name="width">200</property>
+            <layout manager="pack">
+              <property name="fill">x</property>
+              <property name="propagate">False</property>
+              <property name="side">bottom</property>
+            </layout>
+            <child>
+              <object class="tk.Button" id="button_disconnect">
+                <property name="text" translatable="yes">Desconectar</property>
+                <layout manager="pack">
+                  <property name="padx">30</property>
+                  <property name="pady">0</property>
+                  <property name="propagate">True</property>
+                  <property name="side">right</property>
+                </layout>
+              </object>
+            </child>
+          </object>
+        </child>
       </object>
     </child>
   </object>
