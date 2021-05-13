@@ -1,4 +1,8 @@
-# helloworld.py
+#!/usr/bin/python3
+#-*- coding: utf-8 -*-
+#Daniel Gonzalez
+# 
+# # helloworld.py
 import tkinter as tk
 import os
 import pygubu
