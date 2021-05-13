@@ -9,7 +9,7 @@ import pygubu
 from tkinter import *
 from tkinter import messagebox
 
-import deviceconnection
+import deviceconnection as dv
 
 PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
 GUI_FILE = PROJECT_PATH+"/gui/mainui.ui"
