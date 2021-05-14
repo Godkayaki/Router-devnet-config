@@ -193,15 +193,6 @@
                   <property name="propagate">False</property>
                   <property name="side">left</property>
                 </layout>
-                <child>
-                  <object class="tk.Button" id="button_testconnect">
-                    <property name="text" translatable="yes">Provar conexió</property>
-                    <layout manager="pack">
-                      <property name="propagate">True</property>
-                      <property name="side">right</property>
-                    </layout>
-                  </object>
-                </child>
               </object>
             </child>
             <child>
@@ -211,19 +202,10 @@
                 <layout manager="pack">
                   <property name="expand">true</property>
                   <property name="fill">x</property>
-                  <property name="padx">50</property>
+                  <property name="padx">80</property>
                   <property name="propagate">False</property>
                   <property name="side">right</property>
                 </layout>
-                <child>
-                  <object class="tk.Button" id="button_connect">
-                    <property name="text" translatable="yes">Conectar</property>
-                    <layout manager="pack">
-                      <property name="propagate">True</property>
-                      <property name="side">left</property>
-                    </layout>
-                  </object>
-                </child>
               </object>
             </child>
           </object>
