@@ -78,7 +78,10 @@ class MainApp(Frame):
         for child in parent.winfo_children():
             wtype = child.winfo_class()
             if wtype not in ('Frame','Labelframe'):
-                child.configure(state='disabled')
+                try:
+                    child.configure(state='disabled')
+                except:
+                    pass
             else:
                 self.disableChildren(child)
 
@@ -87,12 +90,18 @@ class MainApp(Frame):
         for child in parent.winfo_children():
             wtype = child.winfo_class()
             if wtype not in ('Frame','Labelframe'):
-                child.configure(state='normal')
+                try:
+                    child.configure(state='normal')
+                except:
+                    pass
             else:
                 self.enableChildren(child)
 
     #test connection button clicked event
     def test_connection_clicked(self, event):
+        if self.bt_testc['state'] == "disabled":
+            return
+
         host = self.entry_h.get()
         port = self.entry_p.get()
         user = self.entry_u.get()
@@ -108,6 +117,9 @@ class MainApp(Frame):
 
     #test connection button clicked event
     def connection_clicked(self, event):
+        if self.bt_c['state'] == "disabled":
+            return
+
         host = self.entry_h.get()
         port = self.entry_p.get()
         user = self.entry_u.get()
@@ -121,12 +133,16 @@ class MainApp(Frame):
                 print("Conexió exitosa.")
                 self.disableChildren(self.conn_frame)
                 self.enableChildren(self.config_frame)
+                self.bt_disc.configure(state="normal")
 
         else:
             messagebox.showinfo(message="Els camps no poden estar buits.", title="Error de format.")
 
     #quit connection
     def disconnet_from(self, event):
+        if self.bt_disc['state'] == "disabled":
+            return
+
         self.disableChildren(self.config_frame)
         self.enableChildren(self.conn_frame)
 
