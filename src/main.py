@@ -24,10 +24,10 @@ else:
 PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
 GUI_FILE = PROJECT_PATH+"/gui/mainui.ui"
 
-if PLATFORM == "mac":
+'''if PLATFORM == "mac":
     GUI_FILE = PROJECT_PATH+"/gui/mainui_mac.ui"
 else:
-    GUI_FILE = PROJECT_PATH+"/gui/mainui.ui"
+    GUI_FILE = PROJECT_PATH+"/gui/mainui.ui"'''
 
 class MainApp(Frame):
     
@@ -56,18 +56,18 @@ class MainApp(Frame):
 
     #setup buttons method
     def setupButtons(self):
-        if PLATFORM == "mac":
+        '''if PLATFORM == "mac":
             self.bt_testc = tkmacosx.Button(self.test_c_frame, text='Provar conexió', bg='white',fg='black', borderless=1)
             self.bt_testc.pack(side="right")
             self.bt_c = tkmacosx.Button(self.c_frame, text='Conectar', bg='white',fg='black', borderless=1)
             self.bt_c.pack(side="left")
             self.bt_disc = tkmacosx.Button(self.disc_frame, text='Desconectar', bg='white',fg='black', borderless=1)
             self.bt_disc.pack(side="right", padx=30)
-        else:
+        else:'''
         
-            self.bt_testc = self.builder.get_object('button_testconnect')
-            self.bt_c = self.builder.get_object('button_connect')
-            self.bt_disc = self.builder.get_object('button_disconnect')
+        self.bt_testc = self.builder.get_object('button_testconnect')
+        self.bt_c = self.builder.get_object('button_connect')
+        self.bt_disc = self.builder.get_object('button_disconnect')
 
         self.bt_testc.bind("<Button-1>", self.test_connection_clicked)
         self.bt_c.bind("<Button-1>", self.connection_clicked)
