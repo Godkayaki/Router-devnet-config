@@ -480,7 +480,7 @@
                         <layout manager="pack">
                           <property name="expand">true</property>
                           <property name="fill">x</property>
-                          <property name="propagate">False</property>
+                          <property name="propagate">True</property>
                           <property name="side">left</property>
                         </layout>
                         <child>
@@ -501,7 +501,7 @@
                         <layout manager="pack">
                           <property name="expand">true</property>
                           <property name="fill">x</property>
-                          <property name="propagate">False</property>
+                          <property name="propagate">True</property>
                           <property name="side">right</property>
                         </layout>
                         <child>
@@ -517,7 +517,7 @@
                   </object>
                 </child>
                 <child>
-                  <object class="ttk.Frame" id="frame_interface_selected">
+                  <object class="tk.Frame" id="frame_interface_selected">
                     <property name="height">200</property>
                     <property name="width">200</property>
                     <layout manager="pack">
