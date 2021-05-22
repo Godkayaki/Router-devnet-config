@@ -159,6 +159,7 @@ class MainApp(Frame):
         self.entry_hn_var.set(hostname)
 
         result = str(m.get_config('running', filters.interface_filter))
+        
 
     #quit connection
     def disconnet_from(self, event):
