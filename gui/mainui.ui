@@ -306,7 +306,7 @@
                           <property name="side">right</property>
                         </layout>
                         <child>
-                          <object class="tk.Entry" id="entry2">
+                          <object class="tk.Entry" id="entry_hostname">
                             <layout manager="pack">
                               <property name="propagate">True</property>
                               <property name="side">left</property>
@@ -359,7 +359,7 @@
                           <property name="side">right</property>
                         </layout>
                         <child>
-                          <object class="tk.Text" id="text1">
+                          <object class="tk.Text" id="text_motd">
                             <property name="height">3</property>
                             <property name="width">200</property>
                             <layout manager="pack">

@@ -65,13 +65,18 @@ class MainApp(Frame):
             self.bt_disc.pack(side="right", padx=30)
         else:'''
         
+        self.entry_hn = self.builder.get_object('entry_hostname')
+        self.text_motd = self.builder.get_object('text_motd')
+
         self.bt_testc = self.builder.get_object('button_testconnect')
         self.bt_c = self.builder.get_object('button_connect')
         self.bt_disc = self.builder.get_object('button_disconnect')
+        self.bt_aplicar = self.builder.get_object('button_aplicar')
 
         self.bt_testc.bind("<Button-1>", self.test_connection_clicked)
         self.bt_c.bind("<Button-1>", self.connection_clicked)
         self.bt_disc.bind("<Button-1>", self.disconnet_from)
+        self.bt_aplicar.bind("<Button-1>", self.aplicar_config)
 
     #disable all children from parent passed as reference
     def disableChildren(self, parent):
@@ -96,6 +101,12 @@ class MainApp(Frame):
                     pass
             else:
                 self.enableChildren(child)
+
+    def aplicar_config(self):
+        newhostname = self.entry_hn.get()
+        newmotdbanner = self.text_motd.get()
+
+        print(newhostname, newmotdbanner)
 
     #test connection button clicked event
     def test_connection_clicked(self, event):
