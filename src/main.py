@@ -186,6 +186,13 @@ class MainApp(Frame):
         hostname = re.findall('<hostname>(.*)</hostname>', result)[0]
         self.entry_hn_var.set(hostname)
 
+        #get actual motd and set it to the text
+        result = str(self.conection.get_config('running', filters.motd_filter))
+        #double filter because of <banner><motd><banner>text</banner></motd></banner>
+        a = re.findall('<banner>(.*)</banner>', result)[0]
+        motd = re.findall('<banner>(.*)</banner>', a)[0]
+        self.text_motd.insert(END, motd)
+
         #get quantity of Gigabitehternet interfaces there are in the router
         result = str(self.conection.get_config('running', filters.interface_filter))
         num_interf = re.findall('<name>(.*)</name>', result)[0]

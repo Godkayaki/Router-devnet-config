@@ -360,7 +360,8 @@
                         </layout>
                         <child>
                           <object class="tk.Text" id="text_motd">
-                            <property name="height">3</property>
+                            <property name="font">TkDefaultFont</property>
+                            <property name="height">5</property>
                             <property name="width">200</property>
                             <layout manager="pack">
                               <property name="propagate">True</property>

@@ -23,3 +23,17 @@ hostname_filter = '''
             </native>
         </filter>
     '''
+
+# get motd banner
+motd_filter = '''
+        <filter>
+            <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+                <banner>
+                    <motd>
+                        <banner>
+                        </banner>
+                    </motd>
+                </banner>
+            </native>
+        </filter>
+    '''
