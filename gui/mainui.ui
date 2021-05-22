@@ -505,7 +505,7 @@
                           <property name="side">right</property>
                         </layout>
                         <child>
-                          <object class="ttk.Combobox" id="combobox2">
+                          <object class="ttk.Combobox" id="combobox_interfaces">
                             <layout manager="pack">
                               <property name="propagate">True</property>
                               <property name="side">left</property>

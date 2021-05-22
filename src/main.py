@@ -72,6 +72,7 @@ class MainApp(Frame):
         self.entry_hn_var = tk.StringVar()
         self.entry_hn.configure(textvariable=self.entry_hn_var)
         self.text_motd = self.builder.get_object('text_motd')
+        self.combobox_interfaces = self.builder.get_object('combobox_interfaces')
 
         self.bt_testc = self.builder.get_object('button_testconnect')
         self.bt_c = self.builder.get_object('button_connect')
@@ -107,11 +108,35 @@ class MainApp(Frame):
             else:
                 self.enableChildren(child)
 
+    #apply router configuration (motds and hostname)
     def aplicar_config(self, event):
         newhostname = self.entry_hn.get()
         newmotdbanner = self.text_motd.get()
 
         print(newhostname, newmotdbanner)
+
+    #create frame
+    def create_interface_frame(self):
+        print("create frame with interface options (ip, mask, gateway...)")
+
+    #combobox interface selected
+    def interface_selected(self, event):
+        option = self.combobox_interfaces.get()
+
+        if option == "Interfície...":
+            return
+
+        last_i = int(option[-1])
+        #print(last_i)
+
+        #get interface data
+        interfaces_res = str(self.conection.get_config('running', filters.interface_filter))
+        request = '<GigabitEthernet><name>'+str(last_i)+'</name>(.*)</GigabitEthernet>'
+        singleinter = re.findall(request, interfaces_res)[0]
+        #final interface data filtered by option selected
+        interface_info = singleinter.split('</GigabitEthernet>')[0]
+
+        self.create_interface_frame()
 
     #test connection button clicked event
     def test_connection_clicked(self, event):
@@ -136,11 +161,13 @@ class MainApp(Frame):
         if self.bt_c['state'] == "disabled":
             return
 
+        #get values from entry text
         host = self.entry_h.get()
         port = self.entry_p.get()
         user = self.entry_u.get()
         pswd = self.entry_pw.get()
 
+        #make conection
         if host != '' and port != '' and user != '' and pswd != '':
             self.conection = deviceconnection.return_connection(host, int(port), user, pswd)
             if self.conection == False:
@@ -154,12 +181,23 @@ class MainApp(Frame):
         else:
             messagebox.showinfo(message="Els camps no poden estar buits.", title="Error de format.")
 
+        #get hostname name and set it to entrytext
         result = str(self.conection.get_config('running', filters.hostname_filter))
         hostname = re.findall('<hostname>(.*)</hostname>', result)[0]
         self.entry_hn_var.set(hostname)
 
-        result = str(m.get_config('running', filters.interface_filter))
-        
+        #get quantity of Gigabitehternet interfaces there are in the router
+        result = str(self.conection.get_config('running', filters.interface_filter))
+        num_interf = re.findall('<name>(.*)</name>', result)[0]
+        last_i = int(num_interf[-1])
+
+        interfaces = []
+        for i in range (1,last_i+1):
+            interfaces.append("GigabitEthernet "+str(i))
+        #print(interfaces)
+        self.combobox_interfaces.configure(values=interfaces, state="readonly")
+        self.combobox_interfaces.set('Interfície...')
+        self.combobox_interfaces.bind('<<ComboboxSelected>>', self.interface_selected)
 
     #quit connection
     def disconnet_from(self, event):
