@@ -1,0 +1,25 @@
+#!/usr/bin/python3
+#-*- coding: utf-8 -*-
+#Daniel Gonzalez
+
+# Create a configuration filter
+interface_filter = '''
+    <filter>
+        <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+            <interface>
+                <GigabitEthernet>
+                </GigabitEthernet>
+            </interface>
+        </native>
+    </filter>
+'''
+
+# get hostname
+hostname_filter = '''
+        <filter>
+            <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+                <hostname>
+                </hostname>
+            </native>
+        </filter>
+    '''

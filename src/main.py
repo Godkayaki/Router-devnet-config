@@ -3,13 +3,16 @@
 #Daniel Gonzalez
 # 
 # # helloworld.py
-import tkinter as tk
 import os
+import re
 import pygubu
 import tkmacosx
+import tkinter as tk
 from tkinter import *
 from tkinter import messagebox
 from sys import platform
+
+import filters
 import deviceconnection
 
 if platform == "linux" or platform == "linux2":
@@ -66,6 +69,8 @@ class MainApp(Frame):
         else:'''
         
         self.entry_hn = self.builder.get_object('entry_hostname')
+        self.entry_hn_var = tk.StringVar()
+        self.entry_hn.configure(textvariable=self.entry_hn_var)
         self.text_motd = self.builder.get_object('text_motd')
 
         self.bt_testc = self.builder.get_object('button_testconnect')
@@ -102,7 +107,7 @@ class MainApp(Frame):
             else:
                 self.enableChildren(child)
 
-    def aplicar_config(self):
+    def aplicar_config(self, event):
         newhostname = self.entry_hn.get()
         newmotdbanner = self.text_motd.get()
 
@@ -137,8 +142,8 @@ class MainApp(Frame):
         pswd = self.entry_pw.get()
 
         if host != '' and port != '' and user != '' and pswd != '':
-            c = deviceconnection.return_connection(host, int(port), user, pswd)
-            if c == False:
+            self.conection = deviceconnection.return_connection(host, int(port), user, pswd)
+            if self.conection == False:
                 messagebox.showinfo(message="No es pot establir una conexió amb el router.", title="Error de conexió.")
             else:
                 print("Conexió exitosa.")
@@ -148,6 +153,12 @@ class MainApp(Frame):
 
         else:
             messagebox.showinfo(message="Els camps no poden estar buits.", title="Error de format.")
+
+        result = str(self.conection.get_config('running', filters.hostname_filter))
+        hostname = re.findall('<hostname>(.*)</hostname>', result)[0]
+        self.entry_hn_var.set(hostname)
+
+        result = str(m.get_config('running', filters.interface_filter))
 
     #quit connection
     def disconnet_from(self, event):
