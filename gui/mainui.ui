@@ -488,6 +488,7 @@
                           <object class="tk.Label" id="label1">
                             <property name="text" translatable="yes">Interficie:  </property>
                             <layout manager="pack">
+                              <property name="expand">false</property>
                               <property name="propagate">True</property>
                               <property name="side">right</property>
                             </layout>
@@ -524,6 +525,7 @@
                     <layout manager="pack">
                       <property name="expand">true</property>
                       <property name="fill">both</property>
+                      <property name="padx">10</property>
                       <property name="propagate">True</property>
                       <property name="side">top</property>
                     </layout>

@@ -98,21 +98,72 @@ class MainApp(Frame):
 
         print(newhostname, newmotdbanner)
 
+    #destroy all childs from self.frame_interface
+    def destroy_int_frame(self):
+        for child in self.frame_interface:
+            child.destroy()
+
     #create frame
     def create_interface_frame(self):
         print("create frame with interface options (ip, mask, gateway...)")
 
-        frame_ip = tk.Frame(self.frame_interface, padx=30, pady=30)
-        frame_ip.pack(side="top", expand=False, fill="x")
-        frame_ip_lbl = tk.Frame(frame_ip)
-        frame_ip_lbl.pack(side="left", expand=True, fill="x")
-        frame_ip_entry = tk.Frame(frame_ip)
-        frame_ip_entry.pack(side="right", expand=True, fill="x")
+        frame_data = tk.Frame(self.frame_interface, pady=30)
+        frame_data.pack(side="top", fill="both")
 
-        ip_lbl = tk.Label(frame_ip_lbl, text="hola")
-        ip_lbl.pack(side="right")
+        #ip frame
+        frame_ip = tk.Frame(frame_data, height=10)
+        frame_ip.pack(side="top", fill="x")
+        
+        frame_ip_lbl = tk.Frame(frame_ip, height=20)
+        frame_ip_lbl.pack(side="left", expand=True, fill="x")
+        #frame_ip_lbl.pack_propagate(0)
+        frame_ip_entry = tk.Frame(frame_ip, height=30, width=20)
+        frame_ip_entry.pack(side="right", expand=True, fill="x")
+        #frame_ip_entry.pack_propagate(0)
+
+        ip_lbl = tk.Label(frame_ip_lbl, text="IP: ")
+        ip_lbl.pack(side="right", expand=False)
         ip_entry = tk.Entry(frame_ip_entry)
         ip_entry.pack(side="left")
+
+        #mask frame
+        frame_mask = tk.Frame(frame_data, height=10)
+        frame_mask.pack(side="top", fill="x")
+
+        frame_mask_lbl = tk.Frame(frame_mask, height=20)
+        frame_mask_lbl.pack(side="left", expand=True, fill="x")
+        #frame_mask_lbl.pack_propagate(0)
+        frame_mask_entry = tk.Frame(frame_mask, height=30, width=20)
+        frame_mask_entry.pack(side="right", expand=True, fill="x")
+        #frame_mask_entry.pack_propagate(0)
+
+        mask_lbl = tk.Label(frame_mask_lbl, text="Mascara: ")
+        mask_lbl.pack(side="right", expand=False)
+        mask_entry = tk.Entry(frame_mask_entry)
+        mask_entry.pack(side="left")
+
+        #gateway frame
+        frame_gw = tk.Frame(frame_data, height=10)
+        frame_gw.pack(side="top", fill="x")
+        
+        frame_gw_lbl = tk.Frame(frame_gw, height=20)
+        frame_gw_lbl.pack(side="left", expand=True, fill="x")
+        #frame_gw_lbl.pack_propagate(0)
+        frame_gw_entry = tk.Frame(frame_gw, height=30, width=20)
+        frame_gw_entry.pack(side="right", expand=True, fill="x")
+        #frame_gw_entry.pack_propagate(0)
+
+        gw_lbl = tk.Label(frame_gw_lbl, text="Porta d'enllaç: ")
+        gw_lbl.pack(side="right", expand=False)
+        gw_entry = tk.Entry(frame_gw_entry)
+        gw_entry.pack(side="left")
+
+        '''#apply changes frame
+        frame_apply = tk.Frame(self.frame_interface, height=10)
+        frame_apply.pack(side="bottom", fill="x", expand=False)
+        
+        bt_apply = tk.Button(frame_apply, text="Aplicar")
+        bt_apply.pack(side="top", expand=False)'''
 
     #combobox interface selected
     def interface_selected(self, event):
@@ -207,6 +258,7 @@ class MainApp(Frame):
             return
 
         self.disableChildren(self.config_frame)
+        self.destroy_int_frame()
         self.enableChildren(self.conn_frame)
 
     #run application
