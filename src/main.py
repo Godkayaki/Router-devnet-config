@@ -105,7 +105,7 @@ class MainApp(Frame):
 
     #create frame
     def create_interface_frame(self):
-        print("create frame with interface options (ip, mask, gateway...)")
+        #print("create frame with interface options (ip, mask, gateway...)")
 
         frame_data = tk.Frame(self.frame_interface, pady=30)
         frame_data.pack(side="top", fill="both")
@@ -171,7 +171,7 @@ class MainApp(Frame):
         self.mask_var = tk.StringVar()
         #self.gw_var = tk.StringVar()
 
-        self.ip_entry.configure(textvariable=self.mask_var)
+        self.ip_entry.configure(textvariable=self.ip_var)
         self.mask_entry.configure(textvariable=self.mask_var)
         #gw_entry.configure(textvariable=self.mask_var)
 
@@ -208,9 +208,18 @@ class MainApp(Frame):
         self.destroy_int_frame()
         self.create_interface_frame()
 
+        self.frame_interface.after(100, self.set_values, ip_address, mascara)
+
+        #self.ip_var.set(ip_address)
+        #self.ip_var.set(mascara)
+        #print(ip_address, mascara)
+        #print(type(ip_address), mascara)
+        #self.frame_interface.update()
+
+    def set_values(self, ip_address, mascara):
+        #print(ip_address, mascara)
         self.ip_var.set(ip_address)
-        self.ip_var.set(mascara)
-        self.frame_interface.update()
+        self.mask_var.set(mascara)
 
     #test connection button clicked event
     def test_connection_clicked(self, event):
