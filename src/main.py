@@ -100,7 +100,7 @@ class MainApp(Frame):
 
     #destroy all childs from self.frame_interface
     def destroy_int_frame(self):
-        for child in self.frame_interface:
+        for child in self.frame_interface.winfo_children():
             child.destroy()
 
     #create frame
@@ -112,58 +112,68 @@ class MainApp(Frame):
 
         #ip frame
         frame_ip = tk.Frame(frame_data, height=10)
-        frame_ip.pack(side="top", fill="x")
+        frame_ip.pack(side="top", fill="x", pady=5)
         
         frame_ip_lbl = tk.Frame(frame_ip, height=20)
         frame_ip_lbl.pack(side="left", expand=True, fill="x")
-        #frame_ip_lbl.pack_propagate(0)
+        frame_ip_lbl.pack_propagate(0)
         frame_ip_entry = tk.Frame(frame_ip, height=30, width=20)
         frame_ip_entry.pack(side="right", expand=True, fill="x")
-        #frame_ip_entry.pack_propagate(0)
+        frame_ip_entry.pack_propagate(0)
 
         ip_lbl = tk.Label(frame_ip_lbl, text="IP: ")
         ip_lbl.pack(side="right", expand=False)
-        ip_entry = tk.Entry(frame_ip_entry)
-        ip_entry.pack(side="left")
+        self.ip_entry = tk.Entry(frame_ip_entry)
+        self.ip_entry.pack(side="left")
 
         #mask frame
         frame_mask = tk.Frame(frame_data, height=10)
-        frame_mask.pack(side="top", fill="x")
+        frame_mask.pack(side="top", fill="x", pady=5)
 
         frame_mask_lbl = tk.Frame(frame_mask, height=20)
         frame_mask_lbl.pack(side="left", expand=True, fill="x")
-        #frame_mask_lbl.pack_propagate(0)
+        frame_mask_lbl.pack_propagate(0)
         frame_mask_entry = tk.Frame(frame_mask, height=30, width=20)
         frame_mask_entry.pack(side="right", expand=True, fill="x")
-        #frame_mask_entry.pack_propagate(0)
+        frame_mask_entry.pack_propagate(0)
 
         mask_lbl = tk.Label(frame_mask_lbl, text="Mascara: ")
         mask_lbl.pack(side="right", expand=False)
-        mask_entry = tk.Entry(frame_mask_entry)
-        mask_entry.pack(side="left")
+        self.mask_entry = tk.Entry(frame_mask_entry)
+        self.mask_entry.pack(side="left")
 
-        #gateway frame
+        '''#gateway frame
         frame_gw = tk.Frame(frame_data, height=10)
-        frame_gw.pack(side="top", fill="x")
+        frame_gw.pack(side="top", fill="x", pady=5)
         
         frame_gw_lbl = tk.Frame(frame_gw, height=20)
         frame_gw_lbl.pack(side="left", expand=True, fill="x")
-        #frame_gw_lbl.pack_propagate(0)
+        frame_gw_lbl.pack_propagate(0)
         frame_gw_entry = tk.Frame(frame_gw, height=30, width=20)
         frame_gw_entry.pack(side="right", expand=True, fill="x")
-        #frame_gw_entry.pack_propagate(0)
+        frame_gw_entry.pack_propagate(0)
 
         gw_lbl = tk.Label(frame_gw_lbl, text="Porta d'enllaç: ")
         gw_lbl.pack(side="right", expand=False)
         gw_entry = tk.Entry(frame_gw_entry)
-        gw_entry.pack(side="left")
+        gw_entry.pack(side="left")'''
 
-        '''#apply changes frame
-        frame_apply = tk.Frame(self.frame_interface, height=10)
+        #apply changes frame
+        frame_apply = tk.Frame(self.frame_interface, height=35)
         frame_apply.pack(side="bottom", fill="x", expand=False)
+        frame_apply.pack_propagate(0)
         
         bt_apply = tk.Button(frame_apply, text="Aplicar")
-        bt_apply.pack(side="top", expand=False)'''
+        bt_apply.pack(side="top", expand=False)
+
+        #define StringVar to textvariable
+        self.ip_var = tk.StringVar()
+        self.mask_var = tk.StringVar()
+        #self.gw_var = tk.StringVar()
+
+        self.ip_entry.configure(textvariable=self.mask_var)
+        self.mask_entry.configure(textvariable=self.mask_var)
+        #gw_entry.configure(textvariable=self.mask_var)
 
     #combobox interface selected
     def interface_selected(self, event):
@@ -182,7 +192,25 @@ class MainApp(Frame):
         #final interface data filtered by option selected
         interface_info = singleinter.split('</GigabitEthernet>')[0]
 
+        #get ip address
+        try:
+            ip_address_1 = re.findall('<address>(.*)</address>', interface_info)[0]
+            ip_address = re.findall('<address>(.*)</address>', ip_address_1)[0]
+        except:
+            ip_address = ""
+
+        #get mask
+        try:
+            mascara = re.findall('<mask>(.*)</mask>', interface_info)[0]
+        except:
+            mascara = ""
+
+        self.destroy_int_frame()
         self.create_interface_frame()
+
+        self.ip_var.set(ip_address)
+        self.ip_var.set(mascara)
+        self.frame_interface.update()
 
     #test connection button clicked event
     def test_connection_clicked(self, event):
@@ -264,7 +292,6 @@ class MainApp(Frame):
     #run application
     def run(self):
         self.mainwindow.mainloop()
-
 
 if __name__ == '__main__':
     root = tk.Tk()
