@@ -5,6 +5,7 @@
 # # helloworld.py
 import os
 import re
+import sys
 import pygubu
 import tkmacosx
 import tkinter as tk
@@ -12,25 +13,14 @@ from tkinter import *
 from tkinter import messagebox
 from sys import platform
 
+PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
+GUI_FILE = PROJECT_PATH+"/gui/mainui.ui"
+sys.path.insert(1, PROJECT_PATH+"/templates")
+
 import filters
 import deviceconnection
 
-if platform == "linux" or platform == "linux2":
-    PLATFORM = "gnu"
-elif platform == "darwin":
-    PLATFORM = "mac"
-elif platform == "win32":
-    PLATFORM = "win"
-else:
-    sys.exit(0)
-
-PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
-GUI_FILE = PROJECT_PATH+"/gui/mainui.ui"
-
-'''if PLATFORM == "mac":
-    GUI_FILE = PROJECT_PATH+"/gui/mainui_mac.ui"
-else:
-    GUI_FILE = PROJECT_PATH+"/gui/mainui.ui"'''
+#import PROJECT_PATH/filters
 
 class MainApp(Frame):
     
