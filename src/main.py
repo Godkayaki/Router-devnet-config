@@ -49,14 +49,7 @@ class MainApp(Frame):
 
     #setup buttons method
     def setupButtons(self):
-        '''if PLATFORM == "mac":
-            self.bt_testc = tkmacosx.Button(self.test_c_frame, text='Provar conexió', bg='white',fg='black', borderless=1)
-            self.bt_testc.pack(side="right")
-            self.bt_c = tkmacosx.Button(self.c_frame, text='Conectar', bg='white',fg='black', borderless=1)
-            self.bt_c.pack(side="left")
-            self.bt_disc = tkmacosx.Button(self.disc_frame, text='Desconectar', bg='white',fg='black', borderless=1)
-            self.bt_disc.pack(side="right", padx=30)
-        else:'''
+        self.frame_interface = self.builder.get_object('frame_interface_selected')
         
         self.entry_hn = self.builder.get_object('entry_hostname')
         self.entry_hn_var = tk.StringVar()
@@ -108,6 +101,18 @@ class MainApp(Frame):
     #create frame
     def create_interface_frame(self):
         print("create frame with interface options (ip, mask, gateway...)")
+
+        frame_ip = tk.Frame(self.frame_interface, padx=30, pady=30)
+        frame_ip.pack(side="top", expand=False, fill="x")
+        frame_ip_lbl = tk.Frame(frame_ip)
+        frame_ip_lbl.pack(side="left", expand=True, fill="x")
+        frame_ip_entry = tk.Frame(frame_ip)
+        frame_ip_entry.pack(side="right", expand=True, fill="x")
+
+        ip_lbl = tk.Label(frame_ip_lbl, text="hola")
+        ip_lbl.pack(side="right")
+        ip_entry = tk.Entry(frame_ip_entry)
+        ip_entry.pack(side="left")
 
     #combobox interface selected
     def interface_selected(self, event):
