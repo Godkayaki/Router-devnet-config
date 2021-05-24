@@ -12,8 +12,8 @@ import tkmacosx
 import tkinter as tk
 from tkinter import *
 from tkinter import filedialog
-from jinja2 import Template
 from tkinter import messagebox
+from jinja2 import Template
 from sys import platform
 
 PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
@@ -56,18 +56,21 @@ class MainApp(Frame):
     def setupButtons(self):
         self.frame_interface = self.builder.get_object('frame_interface_selected')
         
+        #load non-button widgets
         self.entry_hn = self.builder.get_object('entry_hostname')
         self.entry_hn_var = tk.StringVar()
         self.entry_hn.configure(textvariable=self.entry_hn_var)
         self.text_motd = self.builder.get_object('text_motd')
         self.combobox_interfaces = self.builder.get_object('combobox_interfaces')
 
+        #load button widgets
         self.bt_testc = self.builder.get_object('button_testconnect')
         self.bt_c = self.builder.get_object('button_connect')
         self.bt_disc = self.builder.get_object('button_disconnect')
         self.bt_aplicar = self.builder.get_object('button_aplicar')
         self.bt_copyconfig = self.builder.get_object('button_copyrs')
 
+        #bind actions to buttons
         self.bt_testc.bind("<Button-1>", self.test_connection_clicked)
         self.bt_c.bind("<Button-1>", self.connection_clicked)
         self.bt_disc.bind("<Button-1>", self.disconnet_from)
@@ -103,15 +106,19 @@ class MainApp(Frame):
         if self.bt_copyconfig['state'] == "disabled":
             return
 
+        #load filename with filedialog
         filename = filedialog.asksaveasfilename(defaultextension=".xml", filetypes=(("Extensible Markup Language file", "*.xml"),("All Files", "*.*")))
         
+        #return if filename is empty
         if filename == None or filename == "":
             return
 
+        #get configuration and save it as .xml
         result = self.conection.get_config('running', filters.full_filter)
         with open(filename, "w") as outfile:
             outfile.write(str(result))
 
+        #format the file to be readable
         tree = lxml.etree.parse(filename)
         pretty = lxml.etree.tostring(tree, encoding="unicode", pretty_print=True)
 
@@ -124,15 +131,18 @@ class MainApp(Frame):
         mascara = self.mask_var.get()
         
         try:
+            #load interface
             interface_template = Template(open(PROJECT_PATH+'/templates/interface.xml').read())
             interface_rendered = interface_template.render(
                 INTERFACE_INDEX=self.curr_interface,
                 IP_ADDRESS=ip,
                 SUBNET_MASK=mascara
             )
+            #save configuration
             result = self.conection.edit_config(target='running', config=interface_rendered)
             messagebox.showinfo(message="Configuració actualitzada correctament.", title="Actualització.")
         except:
+            #in case of error launch popup messages
             messagebox.showinfo(message="No ha sigut posible actualitzar els valors del router.\n Revisa que la ip i la mascara tinguin el format correcte.", title="Error d'update.")
 
     #apply router configuration (motds and hostname)
@@ -149,6 +159,7 @@ class MainApp(Frame):
             result = self.conection.edit_config(target='running', config=hostname_rendered)
             messagebox.showinfo(message="Configuració actualitzada correctament.", title="Actualització.")
         except:
+            #in case of error launch popup messages
             messagebox.showinfo(message="No ha sigut posible actualitzar els valors del router.", title="Error d'update.")
 
     #destroy all childs from self.frame_interface
@@ -254,6 +265,7 @@ class MainApp(Frame):
         try:
             ip_address_1 = re.findall('<address>(.*)</address>', interface_info)[0]
             ip_address = re.findall('<address>(.*)</address>', ip_address_1)[0]
+            #in case there are primary and secondary get the last one
             if len(ip_address) > 15:
                 tmp = ip_address.split(">")
                 ip_address = tmp[-1]
@@ -263,22 +275,19 @@ class MainApp(Frame):
         #get mask
         try:
             mascara = re.findall('<mask>(.*)</mask>', interface_info)[0]
+            #in case there are primary and secondary get the last one
             if len(mascara) > 15:
                 tmp = mascara.split(">")
                 mascara = tmp[-1]
         except:
             mascara = ""
 
+        #destroy frame
         self.destroy_int_frame()
         self.create_interface_frame(last_i)
 
+        #load value after 1ms to evade some tkinter problems
         self.frame_interface.after(100, self.set_values, ip_address, mascara)
-
-        #self.ip_var.set(ip_address)
-        #self.ip_var.set(mascara)
-        #print(ip_address, mascara)
-        #print(type(ip_address), mascara)
-        #self.frame_interface.update()
 
     def set_values(self, ip_address, mascara):
         #print(ip_address, mascara)
@@ -290,11 +299,13 @@ class MainApp(Frame):
         if self.bt_testc['state'] == "disabled":
             return
 
+        #load host, port, user and password
         host = self.entry_h.get()
         port = self.entry_p.get()
         user = self.entry_u.get()
         pswd = self.entry_pw.get()
         
+        #check connection
         if host != '' and port != '' and user != '' and pswd != '':
             if not deviceconnection.test_connection(host, int(port), user, pswd):
                 messagebox.showinfo(message="No es pot establir una conexió amb el router.", title="Error de conexió.")
