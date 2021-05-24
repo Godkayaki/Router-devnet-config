@@ -15,8 +15,8 @@ Making use of ncclient and jinja templates to load xml files of configuration to
 
 ## Installation
 To install search by last release, to execute from source code;
-'''
+```
 git clone https://github.com/Godkayaki/Router-devnet-config/tree/main#readme
 cd Router-devnet-config/src
 python3 main.py
-'''
+```
