@@ -10,12 +10,15 @@ import pygubu
 import tkmacosx
 import tkinter as tk
 from tkinter import *
+from jinja2 import Template
 from tkinter import messagebox
 from sys import platform
 
 PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
 GUI_FILE = PROJECT_PATH+"/gui/mainui.ui"
 sys.path.insert(1, PROJECT_PATH+"/templates")
+
+print(PROJECT_PATH)
 
 import filters
 import deviceconnection
@@ -91,12 +94,28 @@ class MainApp(Frame):
             else:
                 self.enableChildren(child)
 
+    #apply interface configuration
+    def aplicar_int_config(self, event):
+        ip = self.ip_var.get()
+        mascara = self.mask_var.get()
+        
+        
+
     #apply router configuration (motds and hostname)
     def aplicar_config(self, event):
         newhostname = self.entry_hn.get()
-        newmotdbanner = self.text_motd.get()
+        newmotdbanner = self.text_motd.get("1.0",END)
 
-        print(newhostname, newmotdbanner)
+        try:
+            hostname_template = Template(open(PROJECT_PATH+'/templates/hostname.xml').read())
+            hostname_rendered = hostname_template.render(
+                HOSTNAME='csrv', 
+                BANNER_MOTD='ey'
+            )
+            result = self.conection.edit_config(target='running', config=hostname_rendered)
+            messagebox.showinfo(message="Configuració actualitzada correctament.", title="Actualització.")
+        except:
+            messagebox.showinfo(message="No ha sigut posible actualitzar els valors del router.", title="Error d'update.")
 
     #destroy all childs from self.frame_interface
     def destroy_int_frame(self):
@@ -163,8 +182,9 @@ class MainApp(Frame):
         frame_apply.pack(side="bottom", fill="x", expand=False)
         frame_apply.pack_propagate(0)
         
-        bt_apply = tk.Button(frame_apply, text="Aplicar")
-        bt_apply.pack(side="top", expand=False)
+        self.bt_int_aplicar = tk.Button(frame_apply, text="Aplicar")
+        self.bt_int_aplicar.pack(side="top", expand=False)
+        self.bt_int_aplicar.bind("<Button-1>", self.aplicar_int_config)
 
         #define StringVar to textvariable
         self.ip_var = tk.StringVar()
@@ -196,12 +216,18 @@ class MainApp(Frame):
         try:
             ip_address_1 = re.findall('<address>(.*)</address>', interface_info)[0]
             ip_address = re.findall('<address>(.*)</address>', ip_address_1)[0]
+            if len(ip_address) > 15:
+                tmp = ip_address.split(">")
+                ip_address = tmp[-1]
         except:
             ip_address = ""
 
         #get mask
         try:
             mascara = re.findall('<mask>(.*)</mask>', interface_info)[0]
+            if len(mascara) > 15:
+                tmp = mascara.split(">")
+                mascara = tmp[-1]
         except:
             mascara = ""
 
@@ -269,11 +295,14 @@ class MainApp(Frame):
         hostname = re.findall('<hostname>(.*)</hostname>', result)[0]
         self.entry_hn_var.set(hostname)
 
-        #get actual motd and set it to the text
-        result = str(self.conection.get_config('running', filters.motd_filter))
-        #double filter because of <banner><motd><banner>text</banner></motd></banner>
-        a = re.findall('<banner>(.*)</banner>', result)[0]
-        motd = re.findall('<banner>(.*)</banner>', a)[0]
+        try:
+            #get actual motd and set it to the text
+            result = str(self.conection.get_config('running', filters.motd_filter))
+            #double filter because of <banner><motd><banner>text</banner></motd></banner>
+            a = re.findall('<banner>(.*)</banner>', result)[0]
+            motd = re.findall('<banner>(.*)</banner>', a)[0]
+        except:
+            motd = ""
         self.text_motd.insert(END, motd)
 
         #get quantity of Gigabitehternet interfaces there are in the router

@@ -1,0 +1,10 @@
+<config>
+    <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+        <hostname>{{ HOSTNAME }}</hostname>
+        <banner>
+            <motd>
+                <banner>{{ BANNER_MOTD }}</banner>
+            </motd>
+        </banner>
+  </native>
+</config>
