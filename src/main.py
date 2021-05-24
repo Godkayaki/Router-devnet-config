@@ -6,10 +6,12 @@
 import os
 import re
 import sys
+import lxml
 import pygubu
 import tkmacosx
 import tkinter as tk
 from tkinter import *
+from tkinter import filedialog
 from jinja2 import Template
 from tkinter import messagebox
 from sys import platform
@@ -64,11 +66,13 @@ class MainApp(Frame):
         self.bt_c = self.builder.get_object('button_connect')
         self.bt_disc = self.builder.get_object('button_disconnect')
         self.bt_aplicar = self.builder.get_object('button_aplicar')
+        self.bt_copyconfig = self.builder.get_object('button_copyrs')
 
         self.bt_testc.bind("<Button-1>", self.test_connection_clicked)
         self.bt_c.bind("<Button-1>", self.connection_clicked)
         self.bt_disc.bind("<Button-1>", self.disconnet_from)
         self.bt_aplicar.bind("<Button-1>", self.aplicar_config)
+        self.bt_copyconfig.bind("<Button-1>", self.copy_config)
 
     #disable all children from parent passed as reference
     def disableChildren(self, parent):
@@ -94,12 +98,42 @@ class MainApp(Frame):
             else:
                 self.enableChildren(child)
 
+    #copy config
+    def copy_config(self, event):
+        if self.bt_copyconfig['state'] == "disabled":
+            return
+
+        filename = filedialog.asksaveasfilename(defaultextension=".xml", filetypes=(("Extensible Markup Language file", "*.xml"),("All Files", "*.*")))
+        
+        if filename == None or filename == "":
+            return
+
+        result = self.conection.get_config('running', filters.full_filter)
+        with open(filename, "w") as outfile:
+            outfile.write(str(result))
+
+        tree = lxml.etree.parse(filename)
+        pretty = lxml.etree.tostring(tree, encoding="unicode", pretty_print=True)
+
+        with open(filename, "w") as outfile:
+            outfile.write(pretty)
+
     #apply interface configuration
     def aplicar_int_config(self, event):
         ip = self.ip_var.get()
         mascara = self.mask_var.get()
         
-        
+        try:
+            interface_template = Template(open(PROJECT_PATH+'/templates/interface.xml').read())
+            interface_rendered = interface_template.render(
+                INTERFACE_INDEX=self.curr_interface,
+                IP_ADDRESS=ip,
+                SUBNET_MASK=mascara
+            )
+            result = self.conection.edit_config(target='running', config=interface_rendered)
+            messagebox.showinfo(message="Configuració actualitzada correctament.", title="Actualització.")
+        except:
+            messagebox.showinfo(message="No ha sigut posible actualitzar els valors del router.\n Revisa que la ip i la mascara tinguin el format correcte.", title="Error d'update.")
 
     #apply router configuration (motds and hostname)
     def aplicar_config(self, event):
@@ -109,8 +143,8 @@ class MainApp(Frame):
         try:
             hostname_template = Template(open(PROJECT_PATH+'/templates/hostname.xml').read())
             hostname_rendered = hostname_template.render(
-                HOSTNAME='csrv', 
-                BANNER_MOTD='ey'
+                HOSTNAME=newhostname, 
+                BANNER_MOTD=newmotdbanner
             )
             result = self.conection.edit_config(target='running', config=hostname_rendered)
             messagebox.showinfo(message="Configuració actualitzada correctament.", title="Actualització.")
@@ -123,8 +157,9 @@ class MainApp(Frame):
             child.destroy()
 
     #create frame
-    def create_interface_frame(self):
+    def create_interface_frame(self, interface_num):
         #print("create frame with interface options (ip, mask, gateway...)")
+        self.curr_interface = interface_num
 
         frame_data = tk.Frame(self.frame_interface, pady=30)
         frame_data.pack(side="top", fill="both")
@@ -186,6 +221,9 @@ class MainApp(Frame):
         self.bt_int_aplicar.pack(side="top", expand=False)
         self.bt_int_aplicar.bind("<Button-1>", self.aplicar_int_config)
 
+        '''lambda event, a=10, b=20, c=30:
+                            self.rand_func(a, b, c))'''
+
         #define StringVar to textvariable
         self.ip_var = tk.StringVar()
         self.mask_var = tk.StringVar()
@@ -232,7 +270,7 @@ class MainApp(Frame):
             mascara = ""
 
         self.destroy_int_frame()
-        self.create_interface_frame()
+        self.create_interface_frame(last_i)
 
         self.frame_interface.after(100, self.set_values, ip_address, mascara)
 

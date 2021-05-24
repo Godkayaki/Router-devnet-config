@@ -2,6 +2,14 @@
 #-*- coding: utf-8 -*-
 #Daniel Gonzalez
 
+# full filter
+full_filter = '''
+    <filter>
+        <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+        </native>
+    </filter>
+'''
+
 # Create a configuration filter
 interface_filter = '''
     <filter>
