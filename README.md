@@ -1,4 +1,4 @@
-# Devnet UI automation
+# Devnet GUI automation
 
 ## Requirements
 - Python3.x or more: https://www.python.org/downloads/
