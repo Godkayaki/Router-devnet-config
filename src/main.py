@@ -20,7 +20,7 @@ PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
 GUI_FILE = PROJECT_PATH+"/gui/mainui.ui"
 sys.path.insert(1, PROJECT_PATH+"/templates")
 
-print(PROJECT_PATH)
+#print(PROJECT_PATH)
 
 import filters
 import deviceconnection
@@ -331,7 +331,7 @@ class MainApp(Frame):
             if self.conection == False:
                 messagebox.showinfo(message="No es pot establir una conexió amb el router.", title="Error de conexió.")
             else:
-                print("Conexió exitosa.")
+                #print("Conexió exitosa.")
                 self.disableChildren(self.conn_frame)
                 self.enableChildren(self.config_frame)
                 self.bt_disc.configure(state="normal")
